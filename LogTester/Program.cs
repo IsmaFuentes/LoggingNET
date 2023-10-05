@@ -6,9 +6,16 @@ namespace LogTester
   {
     public static void Main(string[] args)
     {
+      CreateErrorLogsAsync();
+
+      Console.ReadLine();
+    }
+
+    public static void CreateErrorLogsAsync()
+    {
       Console.WriteLine("Creating logger instance...");
 
-      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.txt", 100))
+      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}", 100))
       {
         int size = 100;
         while(--size >= 0)
@@ -28,22 +35,40 @@ namespace LogTester
 
         Console.Write("Total logs: " + logs.Count());
       }
+    }
 
+    public static void CreateInformationLogsAsync()
+    {
+      Console.WriteLine("Creating logger instance...");
 
-      //using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.txt", 100))
-      //{
+      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.log", 100))
+      {
+        int size = 100;
+        while(--size >= 0)
+        {
+          logger.CreateLogAsync($"Asynchronous log", LogLevel.Information);
+        }
 
-      //  var logs = logger.GetLogList();
+        var logs = logger.GetLogList();
 
-      //  foreach(var log in logs)
-      //  {
-      //    Console.WriteLine($"{log.Id} - {log.Message}");
-      //  }
+        Console.Write("Total logs: " + logs.Count());
+      }
+    }
 
-      //  Console.Write("Total logs: " + logs.Count());
-      //}
+    public static void EnumerateLogs()
+    {
+      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.log", 100))
+      {
 
-      Console.ReadLine();
+        var logs = logger.GetLogList();
+
+        foreach(var log in logs)
+        {
+          Console.WriteLine($"{log.Id} - {log.Message}");
+        }
+
+        Console.Write("Total logs: " + logs.Count());
+      }
     }
   }
 }

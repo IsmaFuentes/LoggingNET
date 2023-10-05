@@ -20,6 +20,11 @@ namespace LogIt.Data
 
     public JsonDataSource(string jsonPath, int size)
     {
+      if(Directory.Exists(jsonPath))
+      {
+        jsonPath = Path.Combine(jsonPath, "source.log");
+      }
+
       if(!File.Exists(jsonPath))
       {
         File.Create(jsonPath).Close();
