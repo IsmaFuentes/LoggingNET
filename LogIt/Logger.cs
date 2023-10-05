@@ -18,8 +18,7 @@ namespace LogIt
 
     public Logger(string connectionString)
     {
-      // todo...
-      throw new NotImplementedException();
+      this.Configure(connectionString);
     }
 
     public void Dispose()
@@ -46,7 +45,7 @@ namespace LogIt
 
     public void Configure(string connectionString)
     {
-      throw new NotImplementedException();
+      this.DataSource = new MSQLDataSource(connectionString);
     }
 
     public void CreateLog(string message, LogLevel level, Exception exception = null)
@@ -56,9 +55,15 @@ namespace LogIt
         throw new ArgumentNullException("exception");
       }
 
+      // TODO: Refactor (with GenericDatasource object inheritance...)
       if(this.DataSource.GetType() == typeof(JsonDataSource))
       {
         ((JsonDataSource)DataSource).Append(new Log(message, level, exception));
+      }
+
+      if(this.DataSource.GetType() == typeof(MSQLDataSource))
+      {
+        ((MSQLDataSource)DataSource).Append(new Log(message, level, exception));
       }
     }
 
@@ -69,22 +74,53 @@ namespace LogIt
         throw new ArgumentNullException("exception");
       }
 
+
+      // TODO: Refactor (with GenericDatasource object inheritance...)
       if(this.DataSource.GetType() == typeof(JsonDataSource))
       {
         return ((JsonDataSource)DataSource).AppendAsync(new Log(message, level, exception));
       }
 
+      if(this.DataSource.GetType() == typeof(MSQLDataSource))
+      {
+        return ((MSQLDataSource)DataSource).AppendAsync(new Log(message, level, exception));
+      }
+
       return null;
+    }
+
+    public IEnumerable<Log> GetLogList(int max)
+    {
+      // TODO: Refactor (with GenericDatasource object inheritance...)
+
+      if(this.DataSource.GetType() == typeof(JsonDataSource))
+      {
+        return ((JsonDataSource)DataSource).Enumerate(max);
+      }
+
+      if(this.DataSource.GetType() == typeof(MSQLDataSource))
+      {
+        return ((MSQLDataSource)DataSource).Enumerate(max);
+      }
+
+      return new List<Log>();
     }
 
     public IEnumerable<Log> GetLogList()
     {
+      // TODO: Refactor (with GenericDatasource object inheritance...)
+
       if(this.DataSource.GetType() == typeof(JsonDataSource))
       {
         return ((JsonDataSource)DataSource).Enumerate();
       }
 
-      return null;
+      if(this.DataSource.GetType() == typeof(MSQLDataSource))
+      {
+        return ((MSQLDataSource)DataSource).Enumerate();
+      }
+
+      return new List<Log>();
     }
   }
 }

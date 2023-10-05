@@ -4,20 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using LogIt.Models;
+using LogIt.Interfaces;
 
 namespace LogIt.Data
 {
-  public class JsonDataSource : IDisposable
+  public class JsonDataSource : IDisposable, ILoggingDatasource
   {
-    /// <summary>
-    /// Ms docs: https://learn.microsoft.com/es-es/dotnet/api/system.threading.semaphore?view=net-7.0
-    /// </summary>
-    private Semaphore queue { get; set; }
-    private List<Task> queuedTasks { get; set; }
-    private List<Log> source { get; set; }
-    private int size { get; set; }
-    private string sourcePath { get; set; }
-
     public JsonDataSource(string jsonPath, int size)
     {
       if(Directory.Exists(jsonPath))
@@ -47,6 +39,15 @@ namespace LogIt.Data
       this.queue = new Semaphore(1, 1);
       this.queuedTasks = new List<Task>();
     }
+
+    /// <summary>
+    /// Ms docs: https://learn.microsoft.com/es-es/dotnet/api/system.threading.semaphore?view=net-7.0
+    /// </summary>
+    private Semaphore queue { get; set; }
+    private List<Task> queuedTasks { get; set; }
+    private List<Log> source { get; set; }
+    private int size { get; set; }
+    private string sourcePath { get; set; }
 
     public void Dispose()
     {
@@ -84,12 +85,22 @@ namespace LogIt.Data
 #endif
       var task = Task.Run(() =>
       {
-        Append(item);
+        try
+        {
+          Append(item);
 
 #if DEBUG
-        Console.WriteLine("Releasing...");
+          Console.WriteLine("Releasing...");
 #endif
-        queue.Release();
+          queue.Release();
+        } 
+        catch (Exception ex)
+        {
+#if DEBUG
+          Console.WriteLine(ex.Message);
+#endif
+          queue.Release();
+        }
       });
 
       queuedTasks.Add(task);
@@ -97,7 +108,7 @@ namespace LogIt.Data
       return task;
     }
 
-    public IEnumerable<Log> Enumerate()
+    public IEnumerable<Log> Enumerate(int max = 100)
     {
       if(queuedTasks.Count > 0)
       {
@@ -109,10 +120,7 @@ namespace LogIt.Data
         queuedTasks.Clear();
       }
 
-      foreach(var item in source)
-      {
-        yield return item;
-      }
+      return source;
     }
   }
 }

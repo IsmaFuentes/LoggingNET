@@ -21,6 +21,11 @@ namespace LogIt.Models
       }
     }
 
+    public Log()
+    {
+      _id = Guid.NewGuid();
+    }
+
     private Guid _id;
     public Guid Id { get { return _id; } }
 

@@ -12,5 +12,6 @@ namespace LogIt.Interfaces
     Task CreateLogAsync(string message, LogLevel level, Exception exception);
     void CreateLog(string message, LogLevel level, Exception exception);
     IEnumerable<Log> GetLogList();
+    IEnumerable<Log> GetLogList(int records);
   }
 }
