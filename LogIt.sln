@@ -5,7 +5,13 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogIt", "LogIt\LogIt.csproj", "{8BCA72EF-71FC-429E-A587-714E858FA37F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogTester", "LogTester\LogTester.csproj", "{FAB0D087-555D-4841-A5F1-A3F5680EAC8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogTester", "LogTester\LogTester.csproj", "{FAB0D087-555D-4841-A5F1-A3F5680EAC8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D085C5E-55CF-4CAD-A066-71A369A6A596}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Settings.vssettings = Settings.vssettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
