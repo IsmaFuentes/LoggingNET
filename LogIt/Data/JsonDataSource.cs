@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using LogIt.Models;
 using LogIt.Interfaces;
 
@@ -120,7 +121,7 @@ namespace LogIt.Data
         queuedTasks.Clear();
       }
 
-      return source;
+      return source.Take(max);
     }
   }
 }

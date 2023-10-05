@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using LogIt.Models;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
+using LogIt.Models;
 using LogIt.Interfaces;
 
 namespace LogIt.Data
@@ -51,16 +51,16 @@ namespace LogIt.Data
           {
             string createTableQuery = 
               $"CREATE TABLE {tableName} (" +
-                "Id Uniqueidentifier," +
-                "Message VARCHAR(200)," +
-                "Level INT," +
-                "Date Datetime," +
-                "UserName VARCHAR(25)," +
-                "MachineName VARCHAR(25)," +
-                "Source VARCHAR(250)," +
-                "StackTrace VARCHAR(250)," +
-                "ErrorMessage VARCHAR(250)" +
-              ")";
+               "Id Uniqueidentifier NOT NULL," +
+               "Message VARCHAR(200) NOT NULL," +
+               "Level INT NOT NULL," +
+               "Date Datetime NOT NULL," +
+               "UserName VARCHAR(25)," +
+               "MachineName VARCHAR(25)," +
+               "Source VARCHAR(250)," +
+               "StackTrace VARCHAR(250)," +
+               "ErrorMessage VARCHAR(250)" +
+               ")";
 
             command.CommandText = createTableQuery;
             command.ExecuteNonQuery();

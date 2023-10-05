@@ -6,7 +6,7 @@ namespace LogTester
   {
     public static void Main(string[] args)
     {
-      CreateSQLLogsAsync();
+      EnumerateLogs();
 
       Console.ReadLine();
     }
