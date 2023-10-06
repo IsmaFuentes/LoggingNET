@@ -6,7 +6,7 @@ namespace LogTester
   {
     public static void Main(string[] args)
     {
-      EnumerateLogs();
+      CreateErrorLogsAsync();
 
       Console.ReadLine();
     }
@@ -56,7 +56,7 @@ namespace LogTester
     {
       Console.WriteLine("Creating logger instance...");
 
-      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}", 100))
+      using(var logger = new Logger(100, true))
       {
         int size = 100;
         while(--size >= 0)
@@ -82,7 +82,7 @@ namespace LogTester
     {
       Console.WriteLine("Creating logger instance...");
 
-      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.log", 100))
+      using(var logger = new Logger())
       {
         int size = 100;
         while(--size >= 0)
@@ -98,7 +98,7 @@ namespace LogTester
 
     public static void EnumerateLogs()
     {
-      using(var logger = new Logger(@$"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\source.log", 100))
+      using(var logger = new Logger())
       {
 
         var logs = logger.GetLogList(100);

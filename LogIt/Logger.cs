@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using LogIt.Data;
@@ -11,9 +12,16 @@ namespace LogIt
   {
     private object DataSource { get; set; }
 
-    public Logger(string filePath, int logLimit = 1000)
+    public Logger(int logLimit = 100, bool useEncryption = false)
     {
-      this.Configure(filePath, logLimit);
+      string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Logit");
+
+      if(!Directory.Exists(defaultPath))
+      {
+        Directory.CreateDirectory(defaultPath);
+      }
+
+      this.Configure(Path.Combine(defaultPath, "source.log"), logLimit, useEncryption);
     }
 
     public Logger(string connectionString)
@@ -30,7 +38,7 @@ namespace LogIt
       }
     }
 
-    public void Configure(string filePath, int logLimit = 1000)
+    public void Configure(string filePath, int logLimit, bool useEncryption)
     {
       this.DataSource = new JsonDataSource(filePath, logLimit);
     }

@@ -11,13 +11,8 @@ namespace LogIt.Data
 {
   public class JsonDataSource : IDisposable, ILoggingDatasource
   {
-    public JsonDataSource(string jsonPath, int size)
+    public JsonDataSource(string jsonPath, int size = 100, bool useEncryption = false)
     {
-      if(Directory.Exists(jsonPath))
-      {
-        jsonPath = Path.Combine(jsonPath, "source.log");
-      }
-
       if(!File.Exists(jsonPath))
       {
         File.Create(jsonPath).Close();
@@ -25,6 +20,9 @@ namespace LogIt.Data
 
       this.size = size;
       this.sourcePath = jsonPath;
+      this.useEncryption = useEncryption;
+      this.queue = new Semaphore(1, 1);
+      this.queuedTasks = new List<Task>();
 
       string fileContent = File.ReadAllText(jsonPath);
 
@@ -36,9 +34,6 @@ namespace LogIt.Data
       {
         this.source = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Log>>(fileContent) ?? new List<Log>();
       }
-
-      this.queue = new Semaphore(1, 1);
-      this.queuedTasks = new List<Task>();
     }
 
     /// <summary>
@@ -49,6 +44,7 @@ namespace LogIt.Data
     private List<Log> source { get; set; }
     private int size { get; set; }
     private string sourcePath { get; set; }
+    private bool useEncryption { get; set; }
 
     public void Dispose()
     {
@@ -74,7 +70,15 @@ namespace LogIt.Data
 
       source.Add(item);
 
-      File.WriteAllText(sourcePath, Newtonsoft.Json.JsonConvert.SerializeObject(source, Newtonsoft.Json.Formatting.Indented));
+      // TODO Encrpyt string before writing to file
+      string fileContent = Newtonsoft.Json.JsonConvert.SerializeObject(source, Newtonsoft.Json.Formatting.Indented);
+
+      if(useEncryption)
+      {
+        // ...
+      }
+
+      File.WriteAllText(sourcePath, fileContent);
     }
 
     public Task AppendAsync(Log item)
