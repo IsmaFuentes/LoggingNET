@@ -43,7 +43,7 @@ namespace LogIt.Data
       {
         sqlConnection.Open();
 
-        string query = $"SELECT CASE WHEN exists((SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}')) then 1 else 0 end;";
+        string query = $"SELECT CASE WHEN exists((SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}')) THEN 1 ELSE 0 END;";
 
         using(var command = new SqlCommand(query, sqlConnection))
         {

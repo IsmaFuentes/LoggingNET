@@ -40,7 +40,7 @@ namespace LogIt
 
     public void Configure(string filePath, int logLimit, bool useEncryption)
     {
-      this.DataSource = new JsonDataSource(filePath, logLimit);
+      this.DataSource = new JsonDataSource(filePath, logLimit, useEncryption);
     }
 
     public void Configure(string connectionString)

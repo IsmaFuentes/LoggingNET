@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using LogIt.Models;
 using LogIt.Interfaces;
+using LogIt.Cryptography;
 
 namespace LogIt.Data
 {
@@ -32,6 +33,11 @@ namespace LogIt.Data
       }
       else
       {
+        if(useEncryption)
+        {
+          fileContent = Cipher.Decrypt(jsonPath);
+        }
+
         this.source = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Log>>(fileContent) ?? new List<Log>();
       }
     }
@@ -70,15 +76,16 @@ namespace LogIt.Data
 
       source.Add(item);
 
-      // TODO Encrpyt string before writing to file
       string fileContent = Newtonsoft.Json.JsonConvert.SerializeObject(source, Newtonsoft.Json.Formatting.Indented);
 
       if(useEncryption)
       {
-        // ...
+        Cipher.Encrypt(fileContent, sourcePath);
       }
-
-      File.WriteAllText(sourcePath, fileContent);
+      else
+      {
+        File.WriteAllText(sourcePath, fileContent);
+      }
     }
 
     public Task AppendAsync(Log item)
