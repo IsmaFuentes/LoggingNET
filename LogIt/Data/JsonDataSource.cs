@@ -42,9 +42,6 @@ namespace LogIt.Data
       }
     }
 
-    /// <summary>
-    /// Ms docs: https://learn.microsoft.com/es-es/dotnet/api/system.threading.semaphore?view=net-7.0
-    /// </summary>
     private Semaphore queue { get; set; }
     private List<Task> queuedTasks { get; set; }
     private List<Log> source { get; set; }

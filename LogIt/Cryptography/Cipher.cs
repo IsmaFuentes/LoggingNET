@@ -30,19 +30,29 @@ namespace LogIt.Cryptography
 
     public static string Decrypt(string inputFile)
     {
-      if(string.IsNullOrEmpty(inputFile) || string.IsNullOrWhiteSpace(inputFile))
+      try
       {
-        throw new ArgumentNullException(nameof(inputFile));
-      }
+        if(string.IsNullOrEmpty(inputFile) || string.IsNullOrWhiteSpace(inputFile))
+        {
+          throw new ArgumentNullException(nameof(inputFile));
+        }
 
-      if(!File.Exists(inputFile))
+        if(!File.Exists(inputFile))
+        {
+          return string.Empty;
+        }
+
+        byte[] outputBytes = ProtectedData.Unprotect(File.ReadAllBytes(inputFile), null, DataProtectionScope.CurrentUser);
+
+        return Encoding.UTF8.GetString(outputBytes);
+      } 
+      catch(Exception ex)
       {
-        return string.Empty;
-      }
-
-      byte[] outputBytes = ProtectedData.Unprotect(File.ReadAllBytes(inputFile), null, DataProtectionScope.CurrentUser);
-
-      return Encoding.UTF8.GetString(outputBytes);
+#if DEBUG
+        Console.WriteLine(ex.Message);
+#endif
+        return File.ReadAllText(inputFile);
+      }                                            
     }
   }
 }

@@ -10,7 +10,7 @@ namespace LogIt
 {
   public class Logger : ILogging, IDisposable
   {
-    private object DataSource { get; set; }
+    private ILoggingDatasource DataSource { get; set; }
 
     public Logger(int logLimit = 100, bool useEncryption = false)
     {
@@ -33,19 +33,19 @@ namespace LogIt
     {
       if(DataSource != null)
       {
-        ((IDisposable)DataSource).Dispose();
+        DataSource.Dispose();
         DataSource = null;
       }
     }
 
     public void Configure(string filePath, int logLimit, bool useEncryption)
     {
-      this.DataSource = new JsonDataSource(filePath, logLimit, useEncryption);
+      DataSource = new JsonDataSource(filePath, logLimit, useEncryption);
     }
 
     public void Configure(string connectionString)
     {
-      this.DataSource = new MSQLDataSource(connectionString);
+      DataSource = new MSQLDataSource(connectionString);
     }
 
     public void CreateLog(string message, LogLevel level, Exception exception = null)
@@ -55,7 +55,7 @@ namespace LogIt
         throw new ArgumentNullException("exception");
       }
 
-      ((ILoggingDatasource)DataSource).Append(new Log(message, level, exception));
+      DataSource.Append(new Log(message, level, exception));
     }
 
     public Task CreateLogAsync(string message, LogLevel level, Exception exception = null)
@@ -65,12 +65,12 @@ namespace LogIt
         throw new ArgumentNullException("exception");
       }
 
-      return ((ILoggingDatasource)DataSource).AppendAsync(new Log(message, level, exception));
+      return DataSource.AppendAsync(new Log(message, level, exception));
     }
 
     public IEnumerable<Log> GetLogList(int max)
     {
-      return ((ILoggingDatasource)DataSource).Enumerate(max);
+      return DataSource.Enumerate(max);
     }
   }
 }
