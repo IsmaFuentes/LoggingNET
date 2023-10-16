@@ -138,7 +138,7 @@ namespace LogIt.Data
       {
         sqlConnection.Open();
 
-        string query = $"SELECT TOP ({max}) * FROM {tableName} ORDER BY Date";
+        string query = $"SELECT TOP ({max}) * FROM {tableName} ORDER BY Date DESC";
 
         using(var command = new SqlCommand(query, sqlConnection))
         {
