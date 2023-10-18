@@ -2,4 +2,4 @@
 
 - Async/Sync logging operations
 - Json and Microsoft SQL Server datasources
-- Data Encryption (When using Json Datasource)
+- Data Encryption
