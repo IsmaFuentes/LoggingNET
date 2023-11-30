@@ -52,7 +52,7 @@ namespace UnitTesting
           logger.CreateLogAsync("Error log", LogLevel.Error, ex);
         }
 
-        var logs = logger.GetLogList(10);
+        var logs = logger.GetLogList(1000);
         Assert.True(logs.Count() > 0);
         var l1 = logs.Where(log => log.Level == LogLevel.Information).FirstOrDefault();
         Assert.NotNull(l1);

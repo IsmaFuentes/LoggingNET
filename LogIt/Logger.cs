@@ -14,7 +14,7 @@ namespace LogIt
 
     public Logger(int logLimit = 100, bool useEncryption = false)
     {
-      string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Logit");
+      string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Logger");
 
       if(!Directory.Exists(defaultPath))
       {

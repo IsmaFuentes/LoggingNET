@@ -10,11 +10,11 @@ namespace LogIt.Models
       this.Message = message?.Trim();
       this.Date = DateTime.Now;
       this.Level = level;
+      this.UserName = Environment.UserName;
+      this.MachineName = Environment.MachineName;
 
       if(level == LogLevel.Error && innerException != null)
       {
-        this.UserName = Environment.UserName;
-        this.MachineName = Environment.MachineName;
         this.StackTrace = innerException.StackTrace?.Trim();
         this.ErrorMessage = innerException.Message?.Trim();
         this.Source = innerException.Source?.Trim();

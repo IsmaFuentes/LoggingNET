@@ -89,25 +89,18 @@ namespace LogIt.Data
     {
       queue.WaitOne();
 
-#if DEBUG
-      Console.WriteLine("Queueing...");
-#endif
       var task = Task.Run(() =>
       {
         try
         {
           Append(item);
-
-#if DEBUG
-          Console.WriteLine("Releasing...");
-#endif
-          queue.Release();
         } 
         catch (Exception ex)
         {
-#if DEBUG
-          Console.WriteLine(ex.Message);
-#endif
+          throw ex;
+        }
+        finally
+        {
           queue.Release();
         }
       });
@@ -119,14 +112,29 @@ namespace LogIt.Data
 
     public IEnumerable<Log> Enumerate(int max = 100)
     {
-      if(queuedTasks.Count > 0)
+      if(queuedTasks.Any())
       {
+        try
+        {
+          Task.WaitAll(queuedTasks.ToArray());
+        } 
+        catch(Exception ex)
+        {
 #if DEBUG
-        Console.WriteLine("Waiting for queued tasks to finalize");
+          if(ex is AggregateException aggreggatedException)
+          {
+            foreach(var innerException in aggreggatedException.InnerExceptions)
+            {
+              System.Diagnostics.Debug.WriteLine(innerException.Message);
+            }
+          }
 #endif
-        Task.WaitAll(queuedTasks.ToArray());
-
-        queuedTasks.Clear();
+          throw;
+        }
+        finally
+        {
+          queuedTasks.Clear();
+        }
       }
 
       return source.Take(max);
