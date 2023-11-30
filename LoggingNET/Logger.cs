@@ -2,11 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using LogIt.Data;
-using LogIt.Models;
-using LogIt.Interfaces;
+using LoggingNET.Data;
+using LoggingNET.Models;
+using LoggingNET.Interfaces;
 
-namespace LogIt
+namespace LoggingNET
 {
   public class Logger : ILogging, IDisposable
   {

@@ -1,4 +1,4 @@
-using LogIt;
+using LoggingNET;
 
 namespace UnitTesting
 {

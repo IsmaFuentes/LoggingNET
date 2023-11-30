@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LogIt.Cryptography
+namespace LoggingNET.Cryptography
 {
   public class Cipher
   {

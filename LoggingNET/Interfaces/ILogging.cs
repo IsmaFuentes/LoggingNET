@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using LogIt.Models;
+using LoggingNET.Models;
 
-namespace LogIt.Interfaces
+namespace LoggingNET.Interfaces
 {
   public interface ILogging
   {

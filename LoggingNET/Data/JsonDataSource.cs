@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using LogIt.Models;
-using LogIt.Interfaces;
-using LogIt.Cryptography;
+using LoggingNET.Models;
+using LoggingNET.Interfaces;
+using LoggingNET.Cryptography;
 
-namespace LogIt.Data
+namespace LoggingNET.Data
 {
   public class JsonDataSource : IDisposable, ILoggingDatasource
   {

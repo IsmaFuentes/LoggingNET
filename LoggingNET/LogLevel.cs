@@ -1,4 +1,4 @@
-﻿namespace LogIt
+﻿namespace LoggingNET
 {
   public enum LogLevel : int
   {

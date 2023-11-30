@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LogIt.Models;
+using LoggingNET.Models;
 
-namespace LogIt.Interfaces
+namespace LoggingNET.Interfaces
 {
   public interface ILoggingDatasource
   {

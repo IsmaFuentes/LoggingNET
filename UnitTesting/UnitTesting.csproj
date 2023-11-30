@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LogIt\LogIt.csproj" />
+    <ProjectReference Include="..\LoggingNET\LoggingNET.csproj" />
   </ItemGroup>
 
 </Project>

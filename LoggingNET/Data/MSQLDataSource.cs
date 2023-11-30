@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
-using LogIt.Models;
-using LogIt.Interfaces;
+using LoggingNET.Models;
+using LoggingNET.Interfaces;
 using System.Linq;
 
-namespace LogIt.Data
+namespace LoggingNET.Data
 {
   public class MSQLDataSource : IDisposable, ILoggingDatasource
   {

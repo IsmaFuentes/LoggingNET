@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LogIt.Models
+namespace LoggingNET.Models
 {
   public class Log
   {
